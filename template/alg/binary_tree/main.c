@@ -83,8 +83,10 @@ int main() {
     setElemTree(tree, decimal(1), string("pes"));
     printTreeAsList(tree);
 
-    storeValueTree dfd = getElemTree(tree, "hcet");
-    printf("%s\n", dfd);
+    storeValueTree dfd = getElemTree(tree, decimal(13));
+
+    printf("%d\n", elemInTree(tree, decimal(1)));
+    //  printf("%s\n", dfd.string);
 
     freeTree(tree);
     return 0;
@@ -332,7 +334,7 @@ extern void freeTree(struct Tree *tree) {
 }
 
 extern storeValueTree getElemTree(struct Tree *tree, void *key) {
-    struct TreeNode *node = _getElemTree(tree->node, tree->type.value, key);
+    struct TreeNode *node = _getElemTree(tree->node, tree->type.key, key);
     if (node == NULL) {
         fprintf(stderr, "%s\n", "value undefined");
         storeValueTree none;
@@ -344,11 +346,14 @@ extern storeValueTree getElemTree(struct Tree *tree, void *key) {
 
 static treeNode *_getElemTree(struct TreeNode *node, typeTree typeKey, void *key) {
     int condition;
+    if (node == NULL) {
+        return NULL;
+    }
     switch (typeKey) {
         case DECIMAL_ELEM:
-            if ((int64_t) key > node->data.key.decimal) {
+            if (((int64_t *) key) > node->data.key.decimal) {
                 return _getElemTree(node->right, typeKey, key);
-            } else if ((int64_t) key < node->data.key.decimal) {
+            } else if (((int64_t *) key) < node->data.key.decimal) {
                 return _getElemTree(node->left, typeKey, key);
             }
             break;
@@ -367,11 +372,13 @@ static treeNode *_getElemTree(struct TreeNode *node, typeTree typeKey, void *key
                 return _getElemTree(node->left, typeKey, key);
             }
             break;
-        default:
-            fprintf(stderr, "%s\n", "not  correct type of key");
-            return NULL;
     }
     return node;
+}
+
+
+extern _Bool elemInTree(struct Tree *node, void *key) {
+    return _getElemTree(node, node->type.key, key) != NULL;
 }
 
 //реализовать функцию добавления элимента в дерево +
