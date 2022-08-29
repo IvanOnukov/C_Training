@@ -3,4 +3,4 @@ project(bynary_tree C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(bynary_tree main.c)
+add_executable(bynary_tree main.c tree.h tree.c)
