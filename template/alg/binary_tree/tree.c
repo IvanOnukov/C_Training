@@ -1,3 +1,4 @@
+
 #include "tree.h"
 
 extern void *decimal(int64_t x) {
@@ -15,11 +16,7 @@ extern void *real(double *x) {
 
 extern struct Tree *newTree(typeTree key, typeTree value) {
     switch (key) {
-        case DECIMAL_ELEM:
-            break;
-        case REAL_ELEM:
-            break;
-        case STRING_ELEM:
+        case DECIMAL_ELEM: case REAL_ELEM: case STRING_ELEM:
             break;
         default:
             fprintf(stderr, "%s\n", "key type don't supported.");
@@ -241,11 +238,11 @@ extern void freeTree(struct Tree *tree) {
     free(tree);
 }
 
-extern storeValueTree getElemTree(struct Tree *tree, void *key) {
+extern storeValueType getElemTree(struct Tree *tree, void *key) {
     struct TreeNode *node = _getElemTree(tree->node, tree->type.key, key);
     if (node == NULL) {
         fprintf(stderr, "%s\n", "value undefined");
-        storeValueTree none;
+        storeValueType none;
         none.decimal = 0;
         return none;
     }
@@ -284,8 +281,8 @@ static treeNode *_getElemTree(struct TreeNode *node, typeTree typeKey, void *key
     return node;
 }
 
-extern _Bool elemInTree(struct Tree *node, void *key) {
-    return _getElemTree(node, node->type.key, key) != NULL;
+extern _Bool elemInTree(struct Tree *tree, void *key) {
+    return _getElemTree(tree->node, tree->type.key, key) != NULL;
 }
 
 extern void delElemTree(Tree *tree, void *key) {

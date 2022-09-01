@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -13,12 +14,12 @@ typedef union { // storage one of element
     int64_t decimal;
     double real;
     char *string;
-} storeValueTree;
+} storeValueType;
 
 typedef struct TreeNode {
     struct {
-        storeValueTree key;
-        storeValueTree value;
+        storeValueType key;
+        storeValueType value;
     } data;
     struct TreeNode *left;
     struct TreeNode *right;
@@ -42,13 +43,13 @@ extern void *real(double *x);
 
 extern struct Tree *newTree(typeTree key, typeTree value);
 
-extern storeValueTree getElemTree(struct Tree *tree, void *key);
+extern storeValueType getElemTree(struct Tree *tree, void *key);
 
 extern void setElemTree(struct Tree *tree, void *key, void *value);
 
 extern void delElemTree(struct Tree *node, void *key);
 
-extern _Bool elemInTree(struct Tree *node, void *key);
+extern _Bool elemInTree(struct Tree *tree, void *key);
 
 extern void printTree(struct Tree *root);
 
